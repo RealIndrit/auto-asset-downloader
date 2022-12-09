@@ -7,10 +7,11 @@ from praw.models import Submission
 class RedditPost:
 
     def __init__(self, submission: Submission) -> None:
-        self.submissionid: str = submission.id
+        self.id: str = submission.id
         self.locked = submission.locked
         self.url: str = submission.permalink
         self.title: str = submission.title
+        self.content: str = submission.selftext
         self.author: str = submission.author
         self.comments: list[RedditPostComment] = self.__parsecomments(
             submission.comments)

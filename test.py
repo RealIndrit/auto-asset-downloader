@@ -1,8 +1,12 @@
+import json
 import praw
 from prawcore.exceptions import ResponseException
 import re
 from reddit.reddit import RedditPost
-
+from reddit.reddit_login import RedditAutomatedLogin
+from reddit.reddit_screeeshot import screenshot_comment, screenshot_full_post, screenshot_post_content, screenshot_post_title
+from playwright.sync_api import sync_playwright, ViewportSize
+from playwright.async_api import async_playwright
 from utils import settings
 
 def test():
@@ -53,4 +57,19 @@ def test():
    return RedditPost(submission)
 
 settings.load_config("config.json")
-print(test().get_comment(0).content)
+
+reddit_post = test()
+with sync_playwright() as p:
+   browser = p.chromium.launch(headless=False)
+   context = browser.new_context()
+   cookies = json.load(
+        open("./reddit/data/cookie-dark-mode.json") if settings.config["theme"] ==
+        "dark" else open("./reddit/data/cookie-light-mode.json"))
+
+   context.add_cookies(cookies)
+   page = context.new_page()
+   RedditAutomatedLogin(page, settings.config["username"], settings.config["password"])
+   screenshot_post_title(page, reddit_post, f'test/{reddit_post.id}/title.png')
+   screenshot_comment(page, reddit_post.comments[0], f'test/{reddit_post.id}/comment.png')
+   screenshot_full_post(page, reddit_post, f'test/{reddit_post.id}/full_post.png')
+   screenshot_post_content(page, reddit_post, f'test/{reddit_post.id}/content.png')

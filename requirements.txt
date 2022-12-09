@@ -1,0 +1,4 @@
+gTTS
+playwright
+praw
+requests

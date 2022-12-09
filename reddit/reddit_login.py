@@ -22,6 +22,9 @@ class RedditAutomatedLogin:
             page.type("[name=username]", username)
             page.type("[name=password]", password)
             page.get_by_role("button", name="Log In").click()
+            if page.locator("button[aria-label=Close]").is_visible():
+                page.locator("button[aria-label=Close]").click()
+                print('Removed "interrest popup"')
             page.wait_for_load_state("networkidle")
         except Exception as e:
             print("Something went wrong:", e)
