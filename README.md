@@ -28,7 +28,7 @@ or energy maybe even add multithreading support for that extra speed.
 ## Future plans
 
 - [ ] Twitter Support
-- [ ] Automatic Text censoring 
+- [ ] Automatic Text pre pocessing 
 - [ ] Multithreading (Maybe)
 - [x] TTS
 - [x] Screenshot

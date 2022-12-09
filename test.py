@@ -4,7 +4,7 @@ from prawcore.exceptions import ResponseException
 import re
 from reddit.reddit import RedditPost
 from reddit.reddit_login import RedditAutomatedLogin
-from reddit.reddit_screeeshot import screenshot_comment, screenshot_full_post, screenshot_post_content, screenshot_post_title
+from reddit.reddit_screeeshot import screenshot_comment, screenshot_post_full, screenshot_post_content, screenshot_post_title
 from playwright.sync_api import sync_playwright, ViewportSize
 from playwright.async_api import async_playwright
 from utils import settings
@@ -68,8 +68,10 @@ with sync_playwright() as p:
 
    context.add_cookies(cookies)
    page = context.new_page()
+   page.set_viewport_size(ViewportSize(width=1920, height=1080))
    RedditAutomatedLogin(page, settings.config["username"], settings.config["password"])
-   screenshot_post_title(page, reddit_post, f'test/{reddit_post.id}/title.png')
-   screenshot_comment(page, reddit_post.comments[0], f'test/{reddit_post.id}/comment.png')
-   screenshot_full_post(page, reddit_post, f'test/{reddit_post.id}/full_post.png')
-   screenshot_post_content(page, reddit_post, f'test/{reddit_post.id}/content.png')
+   print(f'https://reddit.com{reddit_post.url}')
+   screenshot_post_title(page, reddit_post, f'test/{reddit_post.id}/title.png', True)
+   screenshot_comment(page, reddit_post.comments[0], f'test/{reddit_post.id}/comment.png', True)
+   screenshot_post_content(page, reddit_post, f'test/{reddit_post.id}/content.png', True)
+   screenshot_post_full(page, reddit_post, f'test/{reddit_post.id}/content.png', True)

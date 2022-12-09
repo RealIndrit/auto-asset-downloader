@@ -3,6 +3,10 @@ from playwright._impl._page import Page
 from reddit.reddit import RedditPost, RedditPostComment
 from utils.text_processor import pre_process_text
 
+TITLE_QUERY = 'document.querySelector(`[data-adclicklocation="title"] > div > div`).textContent'
+CONTENT_QUERY = 'document.querySelector(`[data-click-id="text"] > div`).textContent'
+COMMENT_QUERY = 'document.querySelector(`#t1_${tl_id} > div:nth-child(2) > div > div[data-testid="comment"] > div`).textContent'
+
 
 def screenshot_comment(page: Page,
                        comment: RedditPostComment,
@@ -13,7 +17,7 @@ def screenshot_comment(page: Page,
         if pre_process:
             content = pre_process_text(comment.content)
             page.evaluate(
-                '([tl_content, tl_id]) => document.querySelector(`#t1_${tl_id} > div:nth-child(2) > div > div[data-testid="comment"] > div`).textContent = tl_content',
+                f'([tl_content, tl_id]) => {COMMENT_QUERY} = tl_content',
                 [content, comment.id],
             )
         page.locator(f"#t1_{comment.id}").screenshot(path=path)
@@ -33,7 +37,7 @@ def screenshot_post_title(page: Page,
         if pre_process:
             title = pre_process_text(post.title)
             page.evaluate(
-                "tl_content => document.querySelector('[data-adclicklocation=\"title\"] > div:nth-child(3) > div > div').textContent = tl_content",
+                f'tl_content => {TITLE_QUERY} = tl_content',
                 title,
             )
         page.locator('[data-adclicklocation="title"]').screenshot(path=path)
@@ -55,7 +59,7 @@ def screenshot_post_content(page: Page,
             content = pre_process_text(post.content)
             print("Revealing post content")
             page.evaluate(
-                "tl_content => document.querySelector('[data-click-id=\"text\"] > div:nth-child(3) > div > div').textContent = tl_content",
+                f'tl_content => {CONTENT_QUERY} = tl_content',
                 content,
             )
         page.locator('[data-click-id="text"]').screenshot(path=path)
@@ -65,7 +69,7 @@ def screenshot_post_content(page: Page,
     return True
 
 
-def screenshot_full_post(page: Page,
+def screenshot_post_full(page: Page,
                          post: RedditPost,
                          path: str,
                          pre_process=False) -> bool:
@@ -78,11 +82,11 @@ def screenshot_full_post(page: Page,
             title = pre_process_text(post.title)
             content = pre_process_text(post.content)
             page.evaluate(
-                "tl_content => document.querySelector('[data-adclicklocation=\"title\"] > div:nth-child(3) > div > div').textContent = tl_content",
+                f'tl_content => {TITLE_QUERY} = tl_content',
                 title,
             )
             page.evaluate(
-                "tl_content => document.querySelector('[data-click-id=\"text\"] > div:nth-child(3) > div > div').textContent = tl_content",
+                f"tl_content => {CONTENT_QUERY} = tl_content",
                 content,
             )
         page.locator('[data-testid = "post-container"]').screenshot(path=path)

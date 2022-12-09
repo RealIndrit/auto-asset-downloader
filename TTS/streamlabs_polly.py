@@ -1,8 +1,8 @@
 import random
 import requests
 from requests.exceptions import JSONDecodeError
+from TTS.TTS_helper import check_ratelimit
 from utils import settings
-from utils.voice import check_ratelimit
 
 voices = [
     "Brian",
