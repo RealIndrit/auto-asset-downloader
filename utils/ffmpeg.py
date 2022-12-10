@@ -38,7 +38,6 @@ def resolve_ffmpeg():
             or not settings.config["global"]["ffmpeg"]["ffplay"]
         ) and not settings.config["global"]["ffmpeg"]["custom"]:
         ffmpeg_path = __download_ffmpeg(FFMPEG_BINARIES, FFMPEG_FOLDER_DEFAULT)
-        print(ffmpeg_path)
         settings.config["global"]["ffmpeg"]["ffmpeg"] = os.path.join(
             ffmpeg_path, "ffmpeg.exe")
         settings.config["global"]["ffmpeg"]["ffprobe"] = os.path.join(

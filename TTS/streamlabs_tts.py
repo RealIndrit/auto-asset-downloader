@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import random
 import re
@@ -68,7 +69,6 @@ class StreamlabsPolly:
                 print("Error occurred calling Streamlabs Polly")
 
     def __split_tts(self, path: str, text: str, voice: str):
-        parent_path = Path(path).parent
         split_files = []
         split_text = [
             x.group().strip() for x in re.finditer(
@@ -81,9 +81,11 @@ class StreamlabsPolly:
             if not text_cut or text_cut.isspace():
                 offset += 1
                 continue
-            self.__call_tts(f"{parent_path}-{idy - offset}.part.mp3", text_cut,
-                            voice)
-            split_files.append(f"{parent_path}-{idy - offset}.part.mp3")
+            path = os.path.dirname(path)
+            path = os.path.join(path,
+                                f"comment_segment_{idy - offset}.part.mp3")
+            self.__call_tts(path, text_cut, voice)
+            split_files.append(path)
 
         concatenate_audio_segments(split_files)
         for file in split_files:
