@@ -2,8 +2,11 @@ import praw
 from prawcore.exceptions import ResponseException
 from reddit.reddit import RedditPost
 from reddit.reddit_helper import download_reddit_assets
+from utils.ffmpeg import resolve_ffmpeg
 from utils.text_processor import pre_process_text
 from utils import settings
+
+CONFIG = "config.json"
 
 def example():
    try:
@@ -31,11 +34,13 @@ def example():
       exit()
 
    reddit_post = RedditPost(submission)
-   download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=True, text_file=True, screenshot=True, comments=10, pre_process_func=pre_process_text)
+   download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=True, text_file=False, screenshot=False, comments=10, pre_process_func=pre_process_text)
 
 if __name__ == "__main__":
     try:
-        settings.load_config("config.json")
-        example()   
+        settings.load_config(CONFIG)
+        resolve_ffmpeg()
+        example()
+        settings.save_config(CONFIG)
     except Exception as e:
         print("Error!", e)

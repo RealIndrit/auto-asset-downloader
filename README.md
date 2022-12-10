@@ -27,6 +27,8 @@ the PR would comepletely re-write the system from the ground up and probbaly con
 
 5. Double check your config, Run main.py with the right config file loaded and enjoy automated downloading:)
 
+Note: If you have custom ffmpeg installation, you can set the path to your installation directory in config, will require ffmpeg and ffprobe in the folder to work properly. If no custom installation, leave it empty and the script will download the precompiled binaries from https://www.gyan.dev/ffmpeg/builds/
+
 ## Future plans
 
 - [ ] Twitter Support

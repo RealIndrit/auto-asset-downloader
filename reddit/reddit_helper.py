@@ -19,7 +19,7 @@ def screenshot_post(reddit_post: RedditPost,
 
     print(f'Downloading screenshots')
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=False)
         context = browser.new_context()
         cookies = json.load(
             open("./reddit/data/cookie-dark-mode.json"
@@ -73,7 +73,7 @@ def save_to_text_file(reddit_post: RedditPost,
                       comments: int,
                       pre_process_func: types.FunctionType = None):
 
-    print(f'Saving to text files')
+    print(f'Saving text files')
     title_file = Path(
         Path.joinpath(Path(path),
                       Path(f'{reddit_post.id}/text/post/post_title.txt')))
@@ -106,7 +106,7 @@ def save_to_text_file(reddit_post: RedditPost,
             reddit_comment.content
         ) if pre_process_func else reddit_comment.content
         write_to_file(comment_file, content, "utf-16")
-    print(f'Saved to text files')
+    print(f'Saved text files')
 
 
 def save_tts(reddit_post: RedditPost,
@@ -115,7 +115,7 @@ def save_tts(reddit_post: RedditPost,
              voice: str,
              pre_process_func: types.FunctionType = None):
 
-    print(f'Downloading to mp3 files')
+    print(f'Downloading mp3 files')
     title_mp3 = Path(
         Path.joinpath(Path(path),
                       Path(f'{reddit_post.id}/mp3/post/post_title.mp3')))
@@ -144,7 +144,7 @@ def save_tts(reddit_post: RedditPost,
             reddit_comment.content
         ) if pre_process_func else reddit_comment.content
         StreamlabsPolly().run(content, comment_file, voice)
-    print(f'Downloaded to mp3 files')
+    print(f'Downloaded mp3 files')
 
 
 def download_reddit_assets(reddit_post: RedditPost,

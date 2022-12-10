@@ -11,5 +11,12 @@
          "post_id": "zh6ift",
          "streamlabs_voice": "Matthew"
       }
+   },
+   "global": {
+      "ffmpeg": {
+         "ffprobe": "",
+         "ffmpeg": "",
+         "ffplay": ""
+      }
    }
 }

@@ -11,5 +11,10 @@ def load_config(config_file):
     return config
 
 
+def save_config(config_file):
+    with open(config_file, "w+") as f:
+        json.dump(config, f, indent=3)
+
+
 if __name__ == "main":
     load_config("config.json")

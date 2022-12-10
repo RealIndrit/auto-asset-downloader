@@ -4,15 +4,15 @@ import sys
 from datetime import datetime, timezone
 import time as pytime
 from time import sleep
-from pydub import AudioSegment
 from requests import Response
 
+from utils.ffmpeg import ffmpeg_bridge
 
-def concatenate_audio_segments(audio_segments: list[AudioSegment]):
-    audio_out = audio_segments[0]
-    for i, segment in enumerate(audio_segments, 1):
-        audio_out.append(segment)
-    return audio_out
+
+def concatenate_audio_segments(audio_segments: list[str]):
+    #ffmpeg_bridge()
+    # Add ffmpeg concat here
+    pass
 
 
 # Credits https://github.com/elebumm/RedditVideoMakerBot/blob/master/utils/voice.py
