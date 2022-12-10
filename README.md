@@ -9,8 +9,7 @@ the PR would comepletely re-write the system from the ground up and probbaly con
 
 ## Disclaimers
 
-- **At the moment**, this repository will not be able to fetch assets from other platforms than Reddit, I am planning to add Twitter in the future, and if I have time
-or energy maybe even add multithreading support for that extra speed.
+- **At the moment**, this repository will not be able to fetch assets from other platforms than Reddit, I am planning to add Twitter in the future.
 
 ## Requirements
 
@@ -33,7 +32,7 @@ or energy maybe even add multithreading support for that extra speed.
 - [ ] Twitter Support
 - [x] Reddit Support
 - [x] Text Pre-Pocessing 
-- [ ] Multithreading (Maybe)
+- [X] Parallel Downloading
 - [x] TTS - Save all content to mp3 files
 - [x] Screenshot - Save all content to png files
 - [x] Text - Save all content to text files
