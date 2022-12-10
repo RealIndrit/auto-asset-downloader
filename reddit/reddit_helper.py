@@ -84,7 +84,8 @@ def save_to_text_file(reddit_post: RedditPost,
                       Path(f'{reddit_post.id}/text/post/post_content.txt')))
     content = pre_process_func(
         reddit_post.content) if pre_process_func else reddit_post.content
-    write_to_file(content_file, content, "utf-16")
+    if content != "":
+        write_to_file(content_file, content, "utf-16")
 
     full_file = Path(
         Path.joinpath(Path(path),
@@ -108,6 +109,7 @@ def save_to_text_file(reddit_post: RedditPost,
 def save_tts(reddit_post: RedditPost,
              path: str,
              comments: int,
+             voice: str,
              pre_process_func: types.FunctionType = None):
 
     print(f'Saving to mp3 files')
@@ -117,7 +119,7 @@ def save_tts(reddit_post: RedditPost,
     title_mp3.parent.mkdir(exist_ok=True, parents=True)
     title = pre_process_func(
         reddit_post.title) if pre_process_func else reddit_post.title
-    StreamlabsPolly().run(title, title_mp3)
+    StreamlabsPolly().run(title, title_mp3, voice)
 
     content_mp3 = Path(
         Path.joinpath(Path(path),
@@ -125,7 +127,7 @@ def save_tts(reddit_post: RedditPost,
     content = pre_process_func(
         reddit_post.content) if pre_process_func else reddit_post.content
     if content != "":
-        StreamlabsPolly().run(content, content_mp3)
+        StreamlabsPolly().run(content, content_mp3, voice)
 
     for i, reddit_comment in enumerate(reddit_post.comments):
         if i not in range(comments):
@@ -138,7 +140,7 @@ def save_tts(reddit_post: RedditPost,
         content = pre_process_func(
             reddit_comment.content
         ) if pre_process_func else reddit_comment.content
-        StreamlabsPolly().run(content, comment_file)
+        StreamlabsPolly().run(content, comment_file, voice)
 
 
 def download_reddit_assets(reddit_post: RedditPost,
@@ -155,4 +157,6 @@ def download_reddit_assets(reddit_post: RedditPost,
     if text_file:
         save_to_text_file(reddit_post, path, comments, pre_process_func)
     if tts:
-        save_tts(reddit_post, path, comments, pre_process_func)
+        save_tts(reddit_post, path, comments,
+                 settings.config["reddit"]["settings"]["streamlabs_voice"],
+                 pre_process_func)

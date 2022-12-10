@@ -29,7 +29,7 @@ voices = [
 # Valid voices https://lazypy.ro/tts/
 
 
-# Credits https://github.com/elebumm/RedditVideoMakerBot/blob/master/utils/voice.py
+# Part Credits https://github.com/elebumm/RedditVideoMakerBot/blob/master/utils/voice.py
 class StreamlabsPolly:
 
     def __init__(self):
@@ -37,13 +37,14 @@ class StreamlabsPolly:
         self.max_chars = 550
         self.voices = voices
 
-    def run(self, text: str, path: str, voice: str = "Russell"):
+    def run(self, text: str, path: str, voice: str):
         if voice.upper == "RANDOM":
             voice = self.randomvoice()
         text = sanitize_text(text)
 
         if len(text) > self.max_chars:
             #self.__split_tts(path, text, "tts_segement")
+            print("Not supported yet because I have small brain lol")
             pass
         else:
             self.__call_tts(path, text, voice)
@@ -68,7 +69,7 @@ class StreamlabsPolly:
             except (KeyError, JSONDecodeError):
                 print("Error occurred calling Streamlabs Polly")
 
-    def __split_tts(self, path: str, text: str, idx: str):
+    def __split_tts(self, path: str, text: str, voice: str, idx: str):
         split_files = []
         split_text = [
             x.group().strip() for x in re.finditer(
@@ -81,7 +82,7 @@ class StreamlabsPolly:
             if not text_cut or text_cut.isspace():
                 offset += 1
                 continue
-            self.__call_tts(f"{idx}-{idy - offset}.part", text_cut)
+            self.__call_tts(f"{idx}-{idy - offset}.part", text_cut, voice)
             split_files.append(
                 AudioSegment.from_mp3(f"{path}/{idx}-{idy - offset}.part.mp3"))
 
