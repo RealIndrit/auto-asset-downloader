@@ -16,7 +16,8 @@
       "ffmpeg": {
          "ffprobe": "",
          "ffmpeg": "",
-         "ffplay": ""
+         "ffplay": "",
+         "custom": false
       }
    }
 }
