@@ -26,7 +26,7 @@ or energy maybe even add multithreading support for that extra speed.
 
 4. Visit the Reddit Apps page. Set up an app that is a "script". Paste any URL in redirect URL. Ex:google.com, then copy all relevant info from your apps list (Your script app should be at the bottom of the page) Note that "client_id" can be seen directly under your bot name (weird looking string of mixed letters and numbers), and your "client_secret" can be found by clicking edit
 
-5. Run main.py and enjoy automated downloading:)
+5. Double check your config, Run main.py with the right config file loaded and enjoy automated downloading:)
 
 ## Future plans
 
