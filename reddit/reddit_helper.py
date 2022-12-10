@@ -4,6 +4,7 @@ from reddit.reddit import RedditPost
 from reddit.reddit_login import RedditAutomatedLogin
 from reddit.reddit_screeeshot import screenshot_comment, screenshot_post_full, screenshot_post_content, screenshot_post_title
 from playwright.sync_api import sync_playwright, ViewportSize
+from tts.streamlabs_tts import StreamlabsPolly
 from utils import settings
 from pathlib import Path
 
@@ -14,6 +15,8 @@ def screenshot_post(reddit_post: RedditPost,
                     path: str,
                     comments: int = 0,
                     pre_process_func: types.FunctionType = None):
+
+    print(f'Downloading screenshots')
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         context = browser.new_context()
@@ -29,41 +32,37 @@ def screenshot_post(reddit_post: RedditPost,
             page, settings.config["reddit"]["credentials"]["username"],
             settings.config["reddit"]["credentials"]["password"])
 
-        print(f'Downloading Post Title')
-
         screenshot_post_title(
             page,
             reddit_post,
             Path.joinpath(Path(path),
-                          Path(f'{reddit_post.id}/post/post_title.png')),
+                          Path(f'{reddit_post.id}/png/post/post_title.png')),
             pre_process_func=pre_process_func)
-        print(f'Downloading Post Content')
 
         screenshot_post_content(
             page,
             reddit_post,
             Path.joinpath(Path(path),
-                          Path(f'{reddit_post.id}/post/post_content.png')),
+                          Path(f'{reddit_post.id}/png/post/post_content.png')),
             pre_process_func=pre_process_func)
 
-        screenshot_post_full(page,
-                             reddit_post,
-                             Path.joinpath(
-                                 Path(path),
-                                 Path(f'{reddit_post.id}/post/post_full.png')),
-                             pre_process_func=pre_process_func)
+        screenshot_post_full(
+            page,
+            reddit_post,
+            Path.joinpath(Path(path),
+                          Path(f'{reddit_post.id}/png/post/post_full.png')),
+            pre_process_func=pre_process_func)
 
         for i, reddit_comment in enumerate(reddit_post.comments):
             if i not in range(comments):
                 break
-            print(f'Downloading Comment: {i}')
 
             screenshot_comment(
                 page,
                 reddit_comment,
                 Path.joinpath(
                     Path(path),
-                    Path(f'{reddit_post.id}/comments/comment_{i}.png')),
+                    Path(f'{reddit_post.id}/png/comments/comment_{i}.png')),
                 pre_process_func=pre_process_func)
 
 
@@ -72,6 +71,7 @@ def save_to_text_file(reddit_post: RedditPost,
                       comments: int,
                       pre_process_func: types.FunctionType = None):
 
+    print(f'Saving to text files')
     title_file = Path(
         Path.joinpath(Path(path),
                       Path(f'{reddit_post.id}/text/post/post_title.txt')))
@@ -109,7 +109,36 @@ def save_tts(reddit_post: RedditPost,
              path: str,
              comments: int,
              pre_process_func: types.FunctionType = None):
-    pass
+
+    print(f'Saving to mp3 files')
+    title_mp3 = Path(
+        Path.joinpath(Path(path),
+                      Path(f'{reddit_post.id}/mp3/post/post_title.mp3')))
+    title_mp3.parent.mkdir(exist_ok=True, parents=True)
+    title = pre_process_func(
+        reddit_post.title) if pre_process_func else reddit_post.title
+    StreamlabsPolly().run(title, title_mp3)
+
+    content_mp3 = Path(
+        Path.joinpath(Path(path),
+                      Path(f'{reddit_post.id}/mp3/post/post_content.mp3')))
+    content = pre_process_func(
+        reddit_post.content) if pre_process_func else reddit_post.content
+    if content != "":
+        StreamlabsPolly().run(content, content_mp3)
+
+    for i, reddit_comment in enumerate(reddit_post.comments):
+        if i not in range(comments):
+            break
+        comment_file = Path(
+            Path.joinpath(
+                Path(path),
+                Path(f'{reddit_post.id}/mp3/comment/comment_{i}.mp3')))
+        comment_file.parent.mkdir(exist_ok=True, parents=True)
+        content = pre_process_func(
+            reddit_comment.content
+        ) if pre_process_func else reddit_comment.content
+        StreamlabsPolly().run(content, comment_file)
 
 
 def download_reddit_assets(reddit_post: RedditPost,
