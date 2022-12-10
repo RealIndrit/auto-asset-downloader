@@ -24,20 +24,13 @@ def example():
 
 
    if settings.config["reddit"]["settings"]["post_id"]:
-      print("Post ID found... will override subreddit")
       submission = reddit.submission(
             id=settings.config["reddit"]["settings"]["post_id"])
    else:
-      print("Getting subreddit threads...")
-      subreddit_choice = settings.config["reddit"]["settings"]["subreddit"]
-      print(f"Using subreddit: r/{subreddit_choice} from config")
-      if str(subreddit_choice).casefold().startswith("r/"):  # removes the r/ from the input
-            subreddit_choice = subreddit_choice[2:]
-      subreddit = reddit.subreddit(subreddit_choice)
-      submission = subreddit.top(limit=25)[0]
+      print("No post id found, aborting!")
+      exit()
 
    reddit_post = RedditPost(submission)
-
    download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=False, text_file=True, screenshot=True, comments=10, pre_process_func=pre_process_text)
 
 if __name__ == "__main__":
