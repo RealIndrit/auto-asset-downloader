@@ -7,7 +7,6 @@
          "client_secret": "SECRET"
       },
       "settings": {
-         "subreddit": "AskReddit",
          "theme": "dark",
          "post_id": "zh6ift",
          "streamlabs_voice": "Matthew"
