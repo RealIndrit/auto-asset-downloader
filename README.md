@@ -1,4 +1,4 @@
-# Automatic Video Asset Downloader
+# Automatic Media Downloader
 
 A script that automatically fetches all relevant assets to a Reddit post, TTS, Text and Screenshots. All with pre defined paremetars such as reddit post id, subbreddit, TTS voice etc. To then place all assets in a specified folder for easy access from a video editor. (No this bot does not edit and render the video for you, it is instead an asset management tool, for complete automation of video rendering check out the mentioned tool in section "Motivation")
 
