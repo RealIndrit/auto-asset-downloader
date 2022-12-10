@@ -34,7 +34,6 @@ or energy maybe even add multithreading support for that extra speed.
 - [x] Reddit Support
 - [x] Text Pre-Pocessing 
 - [ ] Multithreading (Maybe)
-- [ ] TTS - Save all content to mp3 files
 - [x] Screenshot - Save all content to png files
 - [x] Text - Save all content to text files
 - [x] Running as a logged in user on: Reddit
