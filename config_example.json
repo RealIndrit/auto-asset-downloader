@@ -1,0 +1,16 @@
+{
+   "reddit": {
+      "credentials": {
+         "username": "USERNAME",
+         "password": "PASSWORD",
+         "client_id": "ID",
+         "client_secret": "SECRET"
+      },
+      "settings": {
+         "subreddit": "AskReddit",
+         "nsfw": true,
+         "theme": "dark",
+         "post_id": "zgs74b"
+      }
+   }
+}

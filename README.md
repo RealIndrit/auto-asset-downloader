@@ -1,6 +1,6 @@
 # Automatic Video Asset Downloader
 
-A script that automatically fetches all relevant assets to a Reddit post, TTS, Text and Screenshots. All with pre defined paremetars such as reddit post id, subbreddit, TTS voice etc. To then place all assets in a specified folder for easy access from a video editor. (No this bot does not edit and render the video for you, it is instead an asset managment tool, for complete automation of video rendering check out the mentioned tool in section "Motivation")
+A script that automatically fetches all relevant assets to a Reddit post, TTS, Text and Screenshots. All with pre defined paremetars such as reddit post id, subbreddit, TTS voice etc. To then place all assets in a specified folder for easy access from a video editor. (No this bot does not edit and render the video for you, it is instead an asset management tool, for complete automation of video rendering check out the mentioned tool in section "Motivation")
 
 ## Motivation
 
@@ -24,6 +24,9 @@ or energy maybe even add multithreading support for that extra speed.
 
 3. Run `python -m playwright install` and `python -m playwright install-deps`
 
+4. Visit the Reddit Apps page. Set up an app that is a "script". Paste any URL in redirect URL. Ex:google.com, then copy all relevant info from your apps list (Your script app should be at the bottom of the page) Note that "client_id" can be seen directly under your bot name (weird looking string of mixed letters and numbers), and your "client_secret" can be found by clicking edit
+
+5. Run main.py and enjoy automated downloading:)
 
 ## Future plans
 
