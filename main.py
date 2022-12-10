@@ -38,7 +38,7 @@ def example():
 
    reddit_post = RedditPost(submission)
 
-   download_reddit_assets(reddit_post, "downloaded", False, True, True, 10, pre_process_text)
+   download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=False, text_file=True, screenshot=True, comments=10, pre_process_func=pre_process_text)
 
 if __name__ == "__main__":
     try:
