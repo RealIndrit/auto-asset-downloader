@@ -28,10 +28,11 @@ or energy maybe even add multithreading support for that extra speed.
 ## Future plans
 
 - [ ] Twitter Support
-- [ ] Automatic Text pre pocessing 
+- [x] Reddit Support
+- [x] Text Pre-Pocessing 
 - [ ] Multithreading (Maybe)
-- [x] TTS
-- [x] Screenshot
-- [ ] Save text to text files
-- [x] Running as a logged in user on Reddit
+- [ ] TTS - Save all content to mp3 files
+- [x] Screenshot - Save all content to png files
+- [x] Text - Save all content to text files
+- [x] Running as a logged in user on: Reddit
 

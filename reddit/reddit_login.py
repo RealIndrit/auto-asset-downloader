@@ -1,5 +1,4 @@
 import json
-
 from playwright._impl._page import Page
 
 LOGIN_URL = "https://reddit.com/login"
@@ -28,8 +27,6 @@ class RedditAutomatedLogin:
             # Remove the annoying popup
             if page.locator("button[aria-label=Close]").is_visible():
                 page.locator("button[aria-label=Close]").click()
-            if page.locator("button[aria-label=Dismiss]").is_visible():
-                page.locator("button[aria-label=Dismiss]").click()
 
         except Exception as e:
             print("Something went wrong:", e)
