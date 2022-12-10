@@ -83,7 +83,6 @@ class StreamlabsPolly:
                 continue
             self.__call_tts(f"{parent_path}-{idy - offset}.part.mp3", text_cut,
                             voice)
-            print(Path(f"{parent_path}-{idy - offset}.part.mp3").exists)
             split_files.append(f"{parent_path}-{idy - offset}.part.mp3")
 
         concatenate_audio_segments(split_files)

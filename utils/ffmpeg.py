@@ -3,7 +3,6 @@ import requests
 import os
 import zipfile
 from utils import settings
-from pydub import AudioSegment
 import subprocess
 
 FFMPEG_BINARIES = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip"
@@ -46,7 +45,3 @@ def resolve_ffmpeg():
             ffmpeg_path, "ffprobe.exe")
         settings.config["global"]["ffmpeg"]["ffplay"] = os.path.join(
             ffmpeg_path, "ffplay.exe")
-
-        AudioSegment.converter = settings.config["global"]["ffmpeg"]["ffmpeg"]
-        AudioSegment.ffprobe = settings.config["global"]["ffmpeg"]["ffprobe"]
-        AudioSegment.ffplay = settings.config["global"]["ffmpeg"]["ffplay"]
