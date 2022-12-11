@@ -69,6 +69,8 @@ class StreamlabsPolly:
                 print("Error occurred calling Streamlabs Polly")
 
     def __split_tts(self, path: str, text: str, voice: str):
+        print("Split tts is not fully implmented yet!")
+        return
         split_files = []
         split_text = [
             x.group().strip() for x in re.finditer(
@@ -81,12 +83,12 @@ class StreamlabsPolly:
             if not text_cut or text_cut.isspace():
                 offset += 1
                 continue
-            path = os.path.dirname(path)
-            path = os.path.join(path,
-                                f"comment_segment_{idy - offset}.part.mp3")
-            self.__call_tts(path, text_cut, voice)
-            split_files.append(path)
+            temp_path = os.path.dirname(path)
+            temp_path = os.path.join(
+                temp_path, f"comment_segment_{idy - offset}.part.mp3")
+            self.__call_tts(temp_path, text_cut, voice)
+            split_files.append(temp_path)
 
-        concatenate_audio_segments(split_files)
+        concatenate_audio_segments(split_files, path)
         for file in split_files:
             Path(file).unlink()

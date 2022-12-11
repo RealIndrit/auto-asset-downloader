@@ -14,6 +14,11 @@ def ffmpeg_bridge(*args):
     subprocess.run(cmd)
 
 
+def ffmpeg_bridge(args: list[str]):
+    cmd = [settings.config["global"]["ffmpeg"]["ffmpeg"]] + args
+    subprocess.run(cmd)
+
+
 def __download_ffmpeg(url: str, output: str):
     print("Downloading ffmpeg")
     response = requests.get(url)
@@ -33,6 +38,7 @@ def __download_ffmpeg(url: str, output: str):
 
 
 def resolve_ffmpeg():
+    #ffmpeg binaries paths not defined, assuming no installation -> Install it
     if (not settings.config["global"]["ffmpeg"]["ffmpeg"]
             or not settings.config["global"]["ffmpeg"]["ffprobe"]
             or not settings.config["global"]["ffmpeg"]["ffplay"]

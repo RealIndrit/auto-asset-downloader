@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import re
 import sys
@@ -9,11 +10,15 @@ from requests import Response
 from utils.ffmpeg import ffmpeg_bridge
 
 
-def concatenate_audio_segments(audio_segments: list[str]):
-    #ffmpeg_bridge()
-    # Add ffmpeg concat here
-    print("Not implemented yet")
-    pass
+def concatenate_audio_segments(audio_segments: list[str], out: str):
+    #Call ffmpeg executable directly and skip all middle man wrapper libraries
+    input_file_args: list = []
+    for audio_segment in audio_segments:
+        input_file_args = input_file_args + ['-i', f'{audio_segment}']
+    input_file_args = input_file_args + [
+        '-id3v2_version', '3', '-write_id3v1', '1'
+    ] + ['-c:a', 'copy'] + ['-b:a', '48k'] + ['-y', out]
+    ffmpeg_bridge(input_file_args)
 
 
 # Credits https://github.com/elebumm/RedditVideoMakerBot/blob/master/utils/voice.py

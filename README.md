@@ -4,13 +4,17 @@ A script that automatically fetches all relevant assets to a Reddit post, TTS, T
 
 ## Motivation
 
-Inspired by the [Reddit Video Maker Bot](https://github.com/elebumm/RedditVideoMakerBot) project, initially I had the plan to PR the changes, but after realising 
-the PR would comepletely re-write the system from the ground up and probbaly confuse a lot of the maintainers, I decided to just make it a separete project instead.
+Inspired by the [Reddit Video Maker Bot](https://github.com/elebumm/RedditVideoMakerBot) project, initially I had the plan to PR the changes, but after realising the PR would comepletely re-write the system from the ground up and probbaly confuse a lot of the maintainers, I decided to just make it a separete project instead and add improvements I wanted implmented myself. some of those are:
+
+1. Very few dependencies
+2. Faster
+3. More customizable
 
 ## Requirements
 
 - Python 3.11+
 - Playwright (this should install automatically in installation)
+- FFPMEG (Is automatically installed by the script for you by default, see utils/ffmpeg.py for more)
 
 ## Installation
 
@@ -28,12 +32,12 @@ Note: If you have custom ffmpeg installation, you can set the path to your insta
 ## Future plans
 
 - [ ] Twitter Support
-- [ ] Find a way of drastically speeding up screenshot (move away from playwright?)
-- [x] Custom FFMPEG Support (No Pre installations required)
+- [ ] Custom content hosting with customizability
+- [x] Custom FFMPEG Support
 - [x] Reddit Support
 - [x] Text Pre-Pocessing 
 - [X] Parallel Downloading
-- [x] TTS - Save all content to mp3 files
+- [-] TTS - Save all content to mp3 files (Partly implemented, need to get audio concatenation to work properly)
 - [x] Screenshot - Save all content to png files
 - [x] Text - Save all content to text files
 - [x] Running as a logged in user on: Reddit
