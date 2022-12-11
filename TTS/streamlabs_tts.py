@@ -1,10 +1,14 @@
+from json import JSONDecodeError
+import json
 import os
 from pathlib import Path
+import urllib.error
+import urllib.request
+import urllib.parse
+import urllib.response
 import random
 import re
-import requests
 
-from requests.exceptions import JSONDecodeError
 from tts.tts_helper import check_ratelimit, concatenate_audio_segments, sanitize_text
 """
 Credits: https://github.com/elebumm/RedditVideoMakerBot/blob/master/TTS/streamlabs_polly.py
@@ -38,13 +42,14 @@ class StreamlabsPolly:
         self.max_chars = 500
         self.voices = voices
 
-    def run(self, text: str, path: str, voice: str):
+    def run(self, path: str, text: str, voice: str):
         if voice.upper == "RANDOM":
             voice = self.randomvoice()
         text = sanitize_text(text)
 
         if len(text) > self.max_chars:
-            self.__split_tts(path, text, voice)
+            #self.__split_tts(path, text, voice)
+            pass
         else:
             self.__call_tts(path, text, voice)
 
@@ -52,25 +57,40 @@ class StreamlabsPolly:
         return random.choice(self.voices)
 
     def __call_tts(self, path: str, text: str, voice: str):
-        body = {"voice": voice, "text": text, "service": "polly"}
-        response = requests.post(self.url, data=body)
-        if not check_ratelimit(response):
-            self.run(text, path, voice)
+        headers = {
+            'Content-Type':
+            'application/x-www-form-urlencoded',
+            'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.46'
+        }
+        data = {"voice": voice, "text": text, "service": "polly"}
+
+        data = urllib.parse.urlencode(data).encode('utf-8')
+        req = urllib.request.Request(self.url, data=data, headers=headers)
         try:
-            voice_data = requests.get(response.json()["speak_url"])
-            with open(path, "wb") as f:
-                f.write(voice_data.content)
-        except (KeyError, JSONDecodeError):
+            response = urllib.request.urlopen(req)
             try:
-                if response.json()["error"] == "No text specified!":
-                    raise ValueError(
-                        "Please specify a text to convert to speech.")
+                req = urllib.request.Request(url=json.loads(
+                    response.read())["speak_url"],
+                                             headers=headers)
+                voice_data = urllib.request.urlopen(req)
+                with open(path, "wb") as f:
+                    f.write(voice_data.read())
             except (KeyError, JSONDecodeError):
-                print("Error occurred calling Streamlabs Polly")
+                try:
+                    if json.loads(
+                            response.read())["error"] == "No text specified!":
+                        raise ValueError(
+                            "Please specify a text to convert to speech.")
+                except (KeyError, JSONDecodeError):
+                    print("Error occurred calling Streamlabs Polly")
+        except urllib.error.HTTPError as error:
+            if not check_ratelimit(error):
+                self.__call_tts(path, text, voice)
+            else:
+                print("HTTPError", error)
 
     def __split_tts(self, path: str, text: str, voice: str):
-        print("Split tts is not fully implmented yet!")
-        return
         split_files = []
         split_text = [
             x.group().strip() for x in re.finditer(

@@ -39,7 +39,6 @@ def example():
 if __name__ == "__main__":
     try:
         settings.load_config(CONFIG)
-        resolve_ffmpeg()
         example()
         settings.save_config(CONFIG)
     except Exception as e:

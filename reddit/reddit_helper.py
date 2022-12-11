@@ -122,7 +122,7 @@ def save_tts(reddit_post: RedditPost,
     title_mp3.parent.mkdir(exist_ok=True, parents=True)
     title = pre_process_func(
         reddit_post.title) if pre_process_func else reddit_post.title
-    StreamlabsPolly().run(title, title_mp3, voice)
+    StreamlabsPolly().run(title_mp3, title, voice)
 
     content_mp3 = Path(
         Path.joinpath(Path(path),
@@ -130,7 +130,7 @@ def save_tts(reddit_post: RedditPost,
     content = pre_process_func(
         reddit_post.content) if pre_process_func else reddit_post.content
     if content != "":
-        StreamlabsPolly().run(content, content_mp3, voice)
+        StreamlabsPolly().run(content_mp3, content, voice)
 
     for i, reddit_comment in enumerate(reddit_post.comments):
         if i not in range(comments):
@@ -143,7 +143,7 @@ def save_tts(reddit_post: RedditPost,
         content = pre_process_func(
             reddit_comment.content
         ) if pre_process_func else reddit_comment.content
-        StreamlabsPolly().run(content, comment_file, voice)
+        StreamlabsPolly().run(comment_file, content, voice)
     print(f'Downloaded mp3 files')
 
 

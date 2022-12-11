@@ -1,13 +1,10 @@
-import os
-from pathlib import Path
 import re
 import sys
 from datetime import datetime, timezone
 import time as pytime
 from time import sleep
-from requests import Response
-
-from utils.ffmpeg import ffmpeg_bridge
+from urllib.error import HTTPError
+from utils.ffmpeg import FFMPEG
 
 
 def concatenate_audio_segments(audio_segments: list[str], out: str):
@@ -15,19 +12,18 @@ def concatenate_audio_segments(audio_segments: list[str], out: str):
     input_file_args: list = []
     for audio_segment in audio_segments:
         input_file_args = input_file_args + ['-i', f'{audio_segment}']
-    input_file_args = input_file_args + [
-        '-id3v2_version', '3', '-write_id3v1', '1'
-    ] + ['-c:a', 'copy'] + ['-b:a', '48k'] + ['-y', out]
-    ffmpeg_bridge(input_file_args)
+    input_file_args = input_file_args + ['-c:a', 'copy'] + ['-b:a', '48k'
+                                                            ] + ['-y', out]
+    #FFMPEG.run_ffmpeg(input_file_args)
 
 
 # Credits https://github.com/elebumm/RedditVideoMakerBot/blob/master/utils/voice.py
-def check_ratelimit(response: Response):
+def check_ratelimit(response: HTTPError):
     """
     Checks if the response is a ratelimit response.
     If it is, it sleeps for the time specified in the response.
     """
-    if response.status_code == 429:
+    if response.code == 429:
         try:
             time = int(response.headers["X-RateLimit-Reset"])
             print(

@@ -27,7 +27,7 @@ Inspired by the [Reddit Video Maker Bot](https://github.com/elebumm/RedditVideoM
 
 5. Double check your config, Run main.py with the right config file loaded and enjoy automated downloading:)
 
-Note: If you have custom ffmpeg installation, you can set the path to your installation directory in config and set the "custom" flag to true. If no custom installation, leave it empty and the script will download the precompiled binaries from https://www.gyan.dev/ffmpeg/builds/
+Note: If you have custom ffmpeg installation, you can set the path to your installation directory in the config. If no custom installation, leave it empty and the script will download the precompiled binaries from https://github.com/BtbN/FFmpeg-Builds/releases (Official listed build mirror)
 
 ## Future plans
 
@@ -36,8 +36,8 @@ Note: If you have custom ffmpeg installation, you can set the path to your insta
 - [x] Custom FFMPEG Support
 - [x] Reddit Support
 - [x] Text Pre-Pocessing 
-- [X] Parallel Downloading
-- [-] TTS - Save all content to mp3 files (Partly implemented, need to get audio concatenation to work properly)
+- [x] Parallel Downloading
+- [o] TTS - Save all content to mp3 files (Partly implemented, need to get audio concatenation to work properly)
 - [x] Screenshot - Save all content to png files
 - [x] Text - Save all content to text files
 - [x] Running as a logged in user on: Reddit
