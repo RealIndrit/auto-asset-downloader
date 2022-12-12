@@ -14,28 +14,32 @@ class FFMPEG:
 
     def __init__(self, verbose=False):
         self.__resolve_ffmpeg()
+        self.ffmpeg = settings.config["global"]["ffmpeg"]["ffplay"]
+        self.ffprobe = settings.config["global"]["ffmpeg"]["ffprobe"]
+        self.ffplay = settings.config["global"]["ffmpeg"]["ffplay"]
         self.verbose = verbose
 
     def run_ffmpeg(self, *args):
-        cmd = [settings.config["global"]["ffmpeg"]["ffplay"]]
-        if not self.verbose:
-            cmd = cmd + ["-loglevel", "repeat+level+error"]
-        cmd = cmd + list(args)
+        cmd = self.__argument_helper(self.ffmpeg, args)
         subprocess.run(cmd)
 
     def run_ffprobe(self, *args):
-        cmd = [settings.config["global"]["ffmpeg"]["ffprobe"]]
-        if not self.verbose:
-            cmd = cmd + ["-loglevel", "repeat+level+error"]
-        cmd = cmd + list(args)
+        cmd = self.__argument_helper(self.ffmpeg, args)
         subprocess.run(cmd)
 
     def run_ffplay(self, *args):
-        cmd = [settings.config["global"]["ffmpeg"]["ffplay"]]
+        cmd = self.__argument_helper(self.ffmpeg, args)
+        print(cmd)
+        subprocess.run(cmd)
+
+    def __argument_helper(self, executable, args):
+        # Lets us pass a list as args
+        if len(args) == 1:
+            args = list(args[0])
+        cmd = [executable]
         if not self.verbose:
             cmd = cmd + ["-loglevel", "repeat+level+error"]
-        cmd = cmd + list(args)
-        subprocess.run(cmd)
+        return cmd + list(args)
 
     def __install_ffmpeg(self, url: str, output: str):
         temp_file = "ffmpeg.zip"
