@@ -11,9 +11,9 @@ import re
 
 from tts.tts_helper import check_ratelimit, concatenate_audio_segments, sanitize_text
 from utils.utils import append_to_file
-"""
-Credits: https://github.com/elebumm/RedditVideoMakerBot/blob/master/TTS/streamlabs_polly.py
-"""
+
+# Credits: https://github.com/elebumm/RedditVideoMakerBot/blob/master/TTS/streamlabs_polly.py
+
 voices = [
     "Brian",
     "Emma",
@@ -44,6 +44,19 @@ class StreamlabsPolly:
         self.voices = voices
 
     def run(self, path: str, text: str, voice: str):
+        """
+         Passes the text through a filter, and then send it off to either streamlabs tts service directly
+         or send its off to the split tts for longer text tts
+
+         Args:
+             path (str): Text to be sanitized
+             text (str): Text to be sanitized and then sent through tts
+             voice: (str): What voice the tts should use see "voices" in the top of file for available voices, or picks 
+               random voice if voice is set to RANDOM
+
+         Returns:
+            NoneType
+        """
         if voice.upper == "RANDOM":
             voice = self.randomvoice()
         text = sanitize_text(text)
@@ -57,6 +70,18 @@ class StreamlabsPolly:
         return random.choice(self.voices)
 
     def __call_tts(self, path: str, text: str, voice: str):
+        """
+         Send post request to streamlabs tts service, with fake header and payload of, voice, text and service type. Fetches the time limited 
+         tts url and downloads the tts file. If rate limited, run rate limit function and call self again to complete the tts
+
+         Args:
+             path (str): Text to be sanitized
+             text (str): Text to be sanitized and then sent through tts
+             voice: (str): What voice the tts should use see "voices" in the top of file for available voices
+
+         Returns:
+            NoneType
+        """
         headers = {
             'Content-Type':
             'application/x-www-form-urlencoded',
@@ -92,6 +117,20 @@ class StreamlabsPolly:
 
     # TODO: Rewrite this shit up, spaghetti code mess with variables LOL
     def __split_tts(self, path: str, text: str, voice: str):
+        """
+         Splits text for the tts into sections of full scentences within the max cahracter limit, and send each sub section of the text into its own tts tracked file, 
+         writes the tracked files into a text file for ffmpeg to read for the concatenation, see https://trac.ffmpeg.org/wiki/Concatenate, lastly clean
+         up all temp files (audio files and text file)
+
+         Args:
+             path (str): Text to be sanitized
+             text (str): Text to be sanitized and then sent through tts
+             voice: (str): What voice the tts should use see "voices" in the top of file for available voices, or picks 
+               random voice if voice is set to RANDOM
+
+         Returns:
+            NoneType
+        """
         split_files = []
         split_text = [
             x.group().strip() for x in re.finditer(

@@ -7,16 +7,33 @@ from urllib.error import HTTPError
 from utils.ffmpeg import FFMPEG
 
 
-def concatenate_audio_segments(audio_segments_file: str, out: str):
-    FFMPEG().run_ffmpeg(
-        ["-f", "concat", "-i", audio_segments_file, "-c:a", "copy", "-y", out])
+def concatenate_audio_segments(audio_segments_file: str, output: str):
+    """
+      Pass on the arguments to the ffmpeg wrapper in list type
+      
+      Args:
+        audio_segments_file (str): path to concat list text file
+        output (str): path to where to dump the concatenated audiofile
+
+      Returns:
+        NoneType
+    """
+    FFMPEG().run_ffmpeg([
+        "-f", "concat", "-i", audio_segments_file, "-c:a", "copy", "-y", output
+    ])
 
 
 # Credits https://github.com/elebumm/RedditVideoMakerBot/blob/master/utils/voice.py
 def check_ratelimit(response: HTTPError):
     """
-    Checks if the response is a ratelimit response.
-    If it is, it sleeps for the time specified in the response.
+      Checks if the response is a ratelimit response.
+      If it is, it sleeps for the time specified in the response.
+
+      Args:
+        response (HTTPError): response content of request
+
+      Returns:
+        NoneType
     """
     if response.code == 429:
         try:
@@ -33,10 +50,15 @@ def check_ratelimit(response: HTTPError):
 
 
 # Credits https://github.com/elebumm/RedditVideoMakerBot/blob/master/utils/voice.py
-def sleep_until(time):
+def sleep_until(time: int | datetime):
     """
-    Pause your program until a specific end time.
-    'time' is either a valid datetime object or unix timestamp in seconds (i.e. seconds since Unix epoch)
+      Pause your program until a specific end time.
+
+      Args:
+        time (int or datetime): is either a valid datetime object or unix timestamp in seconds (i.e. seconds since Unix epoch)
+      
+      Returns:
+        NoneType
     """
     end = time
 
@@ -72,16 +94,17 @@ def sleep_until(time):
 
 # Credits https://github.com/elebumm/RedditVideoMakerBot/blob/master/utils/voice.py
 def sanitize_text(text: str) -> str:
-    r"""Sanitizes the text for tts.
+    """
+      Sanitizes the text for tts.
         What gets removed:
-     - following characters`^_~@!&;#:-%“”‘"%*/{}[]()\|<>?=+`
-     - any http or https links
+      - following characters`^_~@!&;#:-%“”‘"%*/{}[]()\|<>?=+`
+      - any http or https links
 
-    Args:
-        text (str): Text to be sanitized
+      Args:
+         text (str): Text to be sanitized
 
-    Returns:
-        str: Sanitized text
+      Returns:
+         str: Sanitized text
     """
 
     # remove any urls from the text

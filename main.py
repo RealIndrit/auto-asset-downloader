@@ -8,6 +8,7 @@ from utils import settings
 CONFIG = "config.json"
 
 def example():
+   # Authenticate Praw
    try:
       reddit = praw.Reddit(
          client_id=settings.config["reddit"]["credentials"]["client_id"],
@@ -25,6 +26,7 @@ def example():
       print("Something went wrong...")
 
 
+   # Fetch specified post or exit program if no post id specified
    if settings.config["reddit"]["settings"]["post_id"]:
       submission = reddit.submission(
             id=settings.config["reddit"]["settings"]["post_id"])

@@ -21,7 +21,7 @@ class RedditAutomatedLogin:
             page.type("[name=username]", username)
             page.type("[name=password]", password)
             page.get_by_role("button", name="Log In").click()
-            # Wait for Reddit to redirect us, ensures we have a valid sesison when trying to reach the posts
+            # Wait for Reddit to redirect us, ensures we have a valid session when trying to reach the posts
             page.wait_for_url("https://www.reddit.com/")
 
             # Remove the annoying popup

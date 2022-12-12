@@ -7,7 +7,7 @@ from praw.models.comment_forest import CommentForest
 
 class RedditPost:
 
-    def __init__(self, submission: Submission) -> None:
+    def __init__(self, submission: Submission):
         self.id: str = submission.id
         self.locked = submission.locked
         self.url: str = submission.permalink
@@ -27,7 +27,7 @@ class RedditPost:
     def get_comment(self, index: int):
         return self.comments[index]
 
-    def __parsecomments(self, comments: CommentForest):
+    def __parsecomments(self, comments: CommentForest) -> list:
         parsed_comments = []
         for comment in comments:
             if isinstance(comment, MoreComments):
@@ -44,12 +44,21 @@ class RedditPost:
 
 class RedditPostComment:
 
-    def __init__(self, pinned, author, body, permalink, id):
+    def __init__(self, pinned: bool, author: str, body: str, permalink: str,
+                 id: str):
         self.author: str = author
         self.pinned: bool = pinned
         self.content: str = body
         self.permalink: str = permalink
         self.id: str = id
 
-    def length(self):
+    def length(self) -> int:
         return len(self.content)
+
+
+# Used in the future for the local reddit post hosting system
+class RedditAuthor:
+
+    def __init__(self, name: str, picture_link: str):
+        self.name: str = name
+        self.picture: str = picture_link

@@ -32,6 +32,12 @@ class FFMPEG:
         subprocess.run(cmd)
 
     def __argument_helper(self, executable, args) -> list[str]:
+        """
+         Convert arguments to list tipe and appends it after executable and log flags
+
+         Returns:
+            NoneType
+        """
         # Lets us pass a list as args
         if len(args) == 1:
             args = list(args[0])
@@ -40,7 +46,18 @@ class FFMPEG:
             cmd = cmd + ["-loglevel", "repeat+level+error"]
         return cmd + list(args)
 
-    def __install_ffmpeg(self, url: str, output: str):
+    def __install_ffmpeg(self, url: str, output: str) -> Path:
+        """
+         Downloads, unzips, and installs ffmpeg, also adds ffmpeg executables paths to the config
+
+         Args:
+            url (str): url to the build of ffmpeg
+            output (str): path to where to install ffmpeg build
+
+         Returns:
+            Path type of the path to the output folder where the executables are located
+        """
+
         temp_file = "ffmpeg.zip"
         print(f"Downloading {temp_file}")
         urllib.request.urlretrieve(url, temp_file)
@@ -58,7 +75,13 @@ class FFMPEG:
                          "ffmpeg-master-latest-win64-gpl", "bin"))
 
     def __resolve_ffmpeg(self):
-        #at least one of the ffmpeg binaries paths not defined, assuming no installation -> Install it
+        """
+         Checks config for ffpmeg paths, if not all found, force install and then set the 
+         config paths to the installed executables
+
+         Returns:
+            NoneType
+        """
         if (not settings.config["global"]["ffmpeg"]["ffmpeg"]
                 or not settings.config["global"]["ffmpeg"]["ffprobe"]
                 or not settings.config["global"]["ffmpeg"]["ffplay"]):
