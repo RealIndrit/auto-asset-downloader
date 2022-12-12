@@ -1,7 +1,8 @@
 from praw.models import MoreComments
 from praw.models import Submission
+from praw.models.comment_forest import CommentForest
 
-#Maybe uneccessary wrapper classes, but makes the code look much cleaner donw the line I hope
+#Maybe uneccessary wrapper classes, but makes the code look much cleaner down the line I hope
 
 
 class RedditPost:
@@ -26,21 +27,18 @@ class RedditPost:
     def get_comment(self, index: int):
         return self.comments[index]
 
-    def __parsecomments(self, comments):
+    def __parsecomments(self, comments: CommentForest):
         parsed_comments = []
-        for top_level_comment in comments:
-            if isinstance(top_level_comment, MoreComments):
+        for comment in comments:
+            if isinstance(comment, MoreComments):
                 continue  # Dont want nested comments for now (add support for this later I guess)
 
-            if top_level_comment.body in ["[removed]", "[deleted]"]:
+            if comment.body in ["[removed]", "[deleted]"]:
                 continue  # Ignore deleted comments
 
             parsed_comments.append(
-                RedditPostComment(top_level_comment.author,
-                                  top_level_comment.stickied,
-                                  top_level_comment.body,
-                                  top_level_comment.permalink,
-                                  top_level_comment.id))
+                RedditPostComment(comment.author, comment.stickied,
+                                  comment.body, comment.permalink, comment.id))
         return parsed_comments
 
 

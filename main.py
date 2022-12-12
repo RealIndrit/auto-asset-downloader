@@ -20,7 +20,7 @@ def example():
    except ResponseException as e:
       match e.response.status_code:
          case 401:
-            print("Invalid credentials - please check them in config.toml")
+            print("Invalid credentials - please check them in config.json")
    except:
       print("Something went wrong...")
 
@@ -34,7 +34,7 @@ def example():
 
    reddit_post = RedditPost(submission)
    download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=True, text_file=True, screenshot=True, comments=4)
-   #download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=True, text_file=True, screenshot=True, comments=0, pre_process_func=pre_process_text)
+   #download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=True, text_file=True, screenshot=True, comments=2, pre_process_func=pre_process_text)
 
 if __name__ == "__main__":
     try:
