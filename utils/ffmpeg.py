@@ -6,7 +6,7 @@ import subprocess
 import urllib.request
 
 # Official build mirror, read: https://ffmpeg.org/download.html
-FFMPEG_BINARIES = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip"
+FFMPEG_BINARIES = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip"
 FFMPEG_FOLDER_DEFAULT = "./ffmpeg/"
 
 
@@ -14,7 +14,7 @@ class FFMPEG:
 
     def __init__(self, verbose=False):
         self.__resolve_ffmpeg()
-        self.ffmpeg = settings.config["global"]["ffmpeg"]["ffplay"]
+        self.ffmpeg = settings.config["global"]["ffmpeg"]["ffmpeg"]
         self.ffprobe = settings.config["global"]["ffmpeg"]["ffprobe"]
         self.ffplay = settings.config["global"]["ffmpeg"]["ffplay"]
         self.verbose = verbose
@@ -24,15 +24,14 @@ class FFMPEG:
         subprocess.run(cmd)
 
     def run_ffprobe(self, *args):
-        cmd = self.__argument_helper(self.ffmpeg, args)
+        cmd = self.__argument_helper(self.ffprobe, args)
         subprocess.run(cmd)
 
     def run_ffplay(self, *args):
-        cmd = self.__argument_helper(self.ffmpeg, args)
-        print(cmd)
+        cmd = self.__argument_helper(self.ffplay, args)
         subprocess.run(cmd)
 
-    def __argument_helper(self, executable, args):
+    def __argument_helper(self, executable, args) -> list[str]:
         # Lets us pass a list as args
         if len(args) == 1:
             args = list(args[0])
@@ -56,10 +55,10 @@ class FFMPEG:
         # Will always be the same, as we always download the latest master branch build...
         return Path(
             os.path.join(FFMPEG_FOLDER_DEFAULT,
-                         "ffmpeg-master-latest-win64-gpl-shared", "bin"))
+                         "ffmpeg-master-latest-win64-gpl", "bin"))
 
     def __resolve_ffmpeg(self):
-        #one of the ffmpeg binaries paths not defined, assuming no installation -> Install it
+        #at least one of the ffmpeg binaries paths not defined, assuming no installation -> Install it
         if (not settings.config["global"]["ffmpeg"]["ffmpeg"]
                 or not settings.config["global"]["ffmpeg"]["ffprobe"]
                 or not settings.config["global"]["ffmpeg"]["ffplay"]):

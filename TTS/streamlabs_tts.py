@@ -10,6 +10,7 @@ import random
 import re
 
 from tts.tts_helper import check_ratelimit, concatenate_audio_segments, sanitize_text
+from utils.utils import append_to_file
 """
 Credits: https://github.com/elebumm/RedditVideoMakerBot/blob/master/TTS/streamlabs_polly.py
 """
@@ -48,8 +49,7 @@ class StreamlabsPolly:
         text = sanitize_text(text)
 
         if len(text) > self.max_chars:
-            #self.__split_tts(path, text, voice)
-            pass
+            self.__split_tts(path, text, voice)
         else:
             self.__call_tts(path, text, voice)
 
@@ -90,6 +90,7 @@ class StreamlabsPolly:
             else:
                 print("HTTPError", error)
 
+    # TODO: Rewrite this shit up, spaghetti code mess with variables LOL
     def __split_tts(self, path: str, text: str, voice: str):
         split_files = []
         split_text = [
@@ -98,17 +99,23 @@ class StreamlabsPolly:
         ]
 
         offset = 0
+        parent_path = os.path.dirname(path)
+        temp_list_file = os.path.join(parent_path, "concat.mp3.txt")
         for idy, text_cut in enumerate(split_text):
             #print(f"{idx}-{idy}({offset}): {text_cut}\n")
             if not text_cut or text_cut.isspace():
                 offset += 1
                 continue
-            temp_path = os.path.dirname(path)
-            temp_path = os.path.join(
-                temp_path, f"comment_segment_{idy - offset}.part.mp3")
-            self.__call_tts(temp_path, text_cut, voice)
-            split_files.append(temp_path)
 
-        concatenate_audio_segments(split_files, path)
+            temp_name = f"audio_segment_{idy - offset}.part.mp3"
+            temp_path = os.path.join(parent_path, temp_name)
+            self.__call_tts(temp_path, text_cut, voice)
+            split_files.append(temp_name)
+
         for file in split_files:
-            Path(file).unlink()
+            append_to_file(temp_list_file, f"file '{file}'\n")
+        concatenate_audio_segments(temp_list_file, path)
+
+        Path(temp_list_file).unlink()
+        for file in split_files:
+            Path(os.path.join(parent_path, file)).unlink()

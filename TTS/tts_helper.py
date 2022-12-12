@@ -7,14 +7,9 @@ from urllib.error import HTTPError
 from utils.ffmpeg import FFMPEG
 
 
-def concatenate_audio_segments(audio_segments: list[str], out: str):
-    #Call ffmpeg executable directly and skip all middle man wrapper libraries
-    input_file_args: list = []
-    for audio_segment in audio_segments:
-        input_file_args = input_file_args + ['-i', f'{audio_segment}']
-    input_file_args = input_file_args + ['-c:a', 'copy'] + ['-b:a', '48k'
-                                                            ] + ['-y', out]
-    #FFMPEG.run_ffmpeg(input_file_args)
+def concatenate_audio_segments(audio_segments_file: str, out: str):
+    FFMPEG().run_ffmpeg(
+        ["-f", "concat", "-i", audio_segments_file, "-c:a", "copy", "-y", out])
 
 
 # Credits https://github.com/elebumm/RedditVideoMakerBot/blob/master/utils/voice.py

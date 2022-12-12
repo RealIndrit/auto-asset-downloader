@@ -4,5 +4,4 @@ downloaded/*
 ffmpeg/
 test.py
 
-reddit/templates/*
-reddit/reddit_screenshot_new.py
+reddit_new/*
