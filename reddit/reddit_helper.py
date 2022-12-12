@@ -19,7 +19,7 @@ def screenshot_post(reddit_post: RedditPost,
 
     print(f'Downloading screenshots')
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        browser = p.chromium.launch(headless=True)
         context = browser.new_context()
         cookies = json.load(
             open("./reddit/data/cookie-dark-mode.json"

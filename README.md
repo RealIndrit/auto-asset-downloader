@@ -2,6 +2,8 @@
 
 A script that automatically fetches all relevant assets to a Reddit post, TTS, Text and Screenshots. All with pre defined paremetars such as reddit post id, subbreddit, TTS voice etc. To then place all assets in a specified folder for easy access from a video editor. (No this bot does not edit and render the video for you, it is instead an asset management tool, for complete automation of video rendering check out the mentioned tool in section "Motivation")
 
+PS: Only developed and tested on Windows! If you use Linux or any other operative system, I dont officially support that, but feel free to PR :)
+
 ## Motivation
 
 Inspired by the [Reddit Video Maker Bot](https://github.com/elebumm/RedditVideoMakerBot) project, initially I had the plan to PR the changes, but after realising the PR would comepletely re-write the system from the ground up and probbaly confuse a lot of the maintainers, I decided to just make it a separete project instead and add improvements I wanted implmented myself. some of those are:

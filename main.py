@@ -15,8 +15,8 @@ def example():
          user_agent="Accessing Reddit threads",
          username=settings.config["reddit"]["credentials"]["username"],
          passkey=settings.config["reddit"]["credentials"]["password"],
-         check_for_async=False,
-   )
+         check_for_async=False
+      )
    except ResponseException as e:
       match e.response.status_code:
          case 401:
@@ -33,7 +33,8 @@ def example():
       exit()
 
    reddit_post = RedditPost(submission)
-   download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=True, text_file=True, screenshot=True, comments=0, pre_process_func=pre_process_text)
+   download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=True, text_file=True, screenshot=True, comments=4)
+   #download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=True, text_file=True, screenshot=True, comments=0, pre_process_func=pre_process_text)
 
 if __name__ == "__main__":
     try:
