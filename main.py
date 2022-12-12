@@ -2,7 +2,6 @@ import praw
 from prawcore.exceptions import ResponseException
 from reddit.reddit import RedditPost
 from reddit.reddit_helper import download_reddit_assets
-from utils.ffmpeg import resolve_ffmpeg
 from utils.text_processor import pre_process_text
 from utils import settings
 
