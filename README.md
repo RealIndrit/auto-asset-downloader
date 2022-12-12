@@ -23,7 +23,7 @@ Inspired by the [Reddit Video Maker Bot](https://github.com/elebumm/RedditVideoM
 
 3. Run `python -m playwright install` and `python -m playwright install-deps`
 
-4. Visit the Reddit Apps page. Set up an app that is a "script". Paste any URL in redirect URL. Ex:google.com, then copy all relevant info from your apps list (Your script app should be at the bottom of the page) Note that "client_id" can be seen directly under your bot name (weird looking string of mixed letters and numbers), and your "client_secret" can be found by clicking edit
+4. Visit the [Reddit Apps page](https://www.reddit.com/prefs/apps). Set up an app that is a "script". Paste any URL in redirect URL. Ex:google.com, then copy all relevant info from your apps list (Your script app should be at the bottom of the page) Note that "client_id" can be seen directly under your bot name (weird looking string of mixed letters and numbers), and your "client_secret" can be found by clicking edit
 
 5. Double check your config, Run main.py with the right config file loaded and enjoy automated downloading:)
 
@@ -31,12 +31,11 @@ Note: If you have custom ffmpeg installation, you can set the path to your insta
 
 ## Future plans
 
-- [ ] Custom content hosting with customizability
+- [ ] Custom content hosting with customizability (Will replace current screenshot system and be about x20 times faster)
 - [x] Custom FFMPEG Support
 - [x] Reddit Support
-- [x] Text Pre-Pocessing 
 - [x] Parallel Downloading
+- [x] Global Text Pre-Pocessing 
 - [x] TTS - Save all content to mp3 files (Partly implemented, need to get audio concatenation to work properly)
 - [x] Screenshot - Save all content to png files
 - [x] Text - Save all content to text files
-- [x] Running as a logged in user on: Reddit
