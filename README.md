@@ -38,6 +38,6 @@ Note: If you have custom ffmpeg installation, you can set the path to your insta
 - [x] Reddit Support
 - [x] Parallel Downloading
 - [x] Global Text Pre-Pocessing 
-- [x] TTS - Save all content to mp3 files (Partly implemented, need to get audio concatenation to work properly)
+- [x] TTS - Save all content to mp3 files
 - [x] Screenshot - Save all content to png files
 - [x] Text - Save all content to text files
