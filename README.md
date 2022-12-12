@@ -31,7 +31,6 @@ Note: If you have custom ffmpeg installation, you can set the path to your insta
 
 ## Future plans
 
-- [ ] Twitter Support
 - [ ] Custom content hosting with customizability
 - [x] Custom FFMPEG Support
 - [x] Reddit Support
