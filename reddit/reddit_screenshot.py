@@ -30,24 +30,42 @@ def screenshot_post_full(page: Page,
             title = pre_process_func(title)
             text = pre_process_func(text)
         text = __build_text_container(text)
-        page.evaluate(
-            f'title => {TITLE_QUERY} = title',
-            title,
-        )
-        page.evaluate(
-            f'votes => {VOTE_QUERY} = votes',
-            votes,
-        )
-        page.evaluate(
-            f'author => {AUTHOR_NAME_QUERY} = author',
-            f"u/{author}",
-        )
-        if not text == "":
+        #if page.is_visible(f"#time"):
+        #    page.evaluate(
+        #        f'time => {TIMESTAMP_QUERY} = time',
+        #        100,
+        #    )
+        if page.is_visible(f"#title"):
+            page.evaluate(
+                f'title => {TITLE_QUERY} = title',
+                title,
+            )
+        if page.is_visible(f"#votes"):
+            page.evaluate(
+                f'votes => {VOTE_QUERY} = votes',
+                votes,
+            )
+        if page.is_visible(f"#author_name"):
+            page.evaluate(
+                f'author => {AUTHOR_NAME_QUERY} = author',
+                f"u/{author}",
+            )
+        #if page.is_visible(f"#author_picture"):
+        #    page.evaluate(
+        #        f'author => {AUTHOR_PICTURE_QUERY} = author',
+        #        f"u/{author}",
+        #    )
+        if page.is_visible(f"#text"):
             page.evaluate(
                 f"text => {TEXT_QUERY} = text",
                 text,
             )
-        page.locator(f"#body").screenshot(path=path)
+        if page.is_visible(f"#body"):
+            page.locator(f"#body").screenshot(path=path)
+        else:
+            print(
+                "Body not found, something is wrong in the template probably!!"
+            )
     except TimeoutError:
         print("TimeoutError: Skipping screenshot...")
         return False
@@ -64,11 +82,13 @@ def screenshot_post_title(page: Page,
         title: str = post.title
         if pre_process_func:
             title = pre_process_func(title)
-        page.evaluate(
-            f'title => {TITLE_QUERY} = title',
-            title,
-        )
-        page.locator(f"#title").screenshot(path=path)
+        if page.is_visible(f"#title"):
+            page.evaluate(
+                f'title => {TITLE_QUERY} = title',
+                title,
+            )
+        if page.is_visible(f"#title"):
+            page.locator(f"#title").screenshot(path=path)
     except TimeoutError:
         print("TimeoutError: Skipping screenshot...")
         return False
@@ -87,12 +107,13 @@ def screenshot_post_content(
         if pre_process_func:
             text = pre_process_func(text)
         text = __build_text_container(text)
-        if not text == "":
+        if page.is_visible(f"#text"):
             page.evaluate(
                 f"text => {TEXT_QUERY} = text",
                 text,
             )
-        page.locator(f"#text").screenshot(path=path)
+        if page.is_visible(f"#text"):
+            page.locator(f"#text").screenshot(path=path)
     except TimeoutError:
         print("TimeoutError: Skipping screenshot...")
         return False
@@ -113,19 +134,27 @@ def screenshot_comment(page: Page,
         if pre_process_func:
             text = pre_process_func(text)
         text = __build_text_container(text)
-        page.evaluate(
-            f'votes => {VOTE_QUERY} = votes',
-            votes,
-        )
-        page.evaluate(
-            f'author => {AUTHOR_NAME_QUERY} = author',
-            f"u/{author}",
-        )
-        page.evaluate(
-            f"text => {TEXT_QUERY} = text",
-            text,
-        )
-        page.locator(f"#body").screenshot(path=path)
+        if page.is_visible(f"#votes"):
+            page.evaluate(
+                f'votes => {VOTE_QUERY} = votes',
+                votes,
+            )
+        if page.is_visible(f"#author_name"):
+            page.evaluate(
+                f'author => {AUTHOR_NAME_QUERY} = author',
+                f"u/{author}",
+            )
+        if page.is_visible(f"#text"):
+            page.evaluate(
+                f"text => {TEXT_QUERY} = text",
+                text,
+            )
+        if page.is_visible(f"#body"):
+            page.locator(f"#body").screenshot(path=path)
+        else:
+            print(
+                "Body not found, something is wrong in the template probably!!"
+            )
     except TimeoutError:
         print("TimeoutError: Skipping screenshot...")
         return False
@@ -135,8 +164,6 @@ def screenshot_comment(page: Page,
 def __build_text_container(text: str) -> str:
     paragraphs = text.split("\n")
     html = []
-    if not len(paragraphs) == 1:
-        for p in paragraphs:
-            html.append(f"\n<p>{p}</p>")
-        return ' '.join(html)
-    return ""
+    for p in paragraphs:
+        html.append(f"\n<p>{p}</p>")
+    return ' '.join(html)
