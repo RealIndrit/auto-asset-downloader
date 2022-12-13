@@ -14,8 +14,6 @@ def example():
          client_id=settings.config["reddit"]["credentials"]["client_id"],
          client_secret=settings.config["reddit"]["credentials"]["client_secret"],
          user_agent="Accessing Reddit threads",
-         username=settings.config["reddit"]["credentials"]["username"],
-         passkey=settings.config["reddit"]["credentials"]["password"],
          check_for_async=False
       )
    except ResponseException as e:

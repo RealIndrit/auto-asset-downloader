@@ -1,13 +1,10 @@
 {
    "reddit": {
       "credentials": {
-         "username": "USERNAME",
-         "password": "PASSWORD",
          "client_id": "ID",
          "client_secret": "SECRET"
       },
       "settings": {
-         "theme": "dark",
          "post_id": "zh6ift",
          "streamlabs_voice": "Matthew"
       }
