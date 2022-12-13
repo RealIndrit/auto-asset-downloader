@@ -1,9 +1,8 @@
 import threading
 import types
-import json
 from reddit.reddit import RedditPost
-from reddit.reddit_login import RedditAutomatedLogin
-from reddit.reddit_screeeshot import screenshot_comment, screenshot_post_full, screenshot_post_content, screenshot_post_title
+from reddit.reddit_host import HTTPServerLayer
+from reddit.reddit_screenshot import screenshot_comment, screenshot_post_full, screenshot_post_content, screenshot_post_title
 from playwright.sync_api import sync_playwright, ViewportSize
 from tts.streamlabs_tts import StreamlabsPolly
 from utils import settings
@@ -17,22 +16,15 @@ def screenshot_post(reddit_post: RedditPost,
                     comments: int = 0,
                     pre_process_func: types.FunctionType = None):
 
-    print(f'Downloading screenshots')
+    print("Launching local webserver for website emulation")
+    server = HTTPServerLayer()
+    server.setUp()
+    print(f'Creating screenshots...')
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.firefox.launch(headless=True)
         context = browser.new_context()
-        cookies = json.load(
-            open("./reddit/data/cookie-dark-mode.json"
-                 ) if settings.config["reddit"]["settings"]["theme"] ==
-            "dark" else open("./reddit/data/cookie-light-mode.json"))
-
-        context.add_cookies(cookies)
         page = context.new_page()
         page.set_viewport_size(ViewportSize(width=1920, height=1080))
-        RedditAutomatedLogin(
-            page, settings.config["reddit"]["credentials"]["username"],
-            settings.config["reddit"]["credentials"]["password"])
-
         screenshot_post_title(
             page,
             reddit_post,
@@ -65,7 +57,9 @@ def screenshot_post(reddit_post: RedditPost,
                     Path(path),
                     Path(f'{reddit_post.id}/png/comments/comment_{i}.png')),
                 pre_process_func=pre_process_func)
-        print(f'Downloaded screenshots')
+    print(f'Created screenshots...')
+    server.tearDown()
+    print("Local webserver shutdown")
 
 
 def save_to_text_file(reddit_post: RedditPost,

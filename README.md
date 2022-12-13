@@ -8,8 +8,8 @@ PS: Only developed and tested on Windows! If you use Linux or any other operativ
 
 Inspired by the [Reddit Video Maker Bot](https://github.com/elebumm/RedditVideoMakerBot) project, initially I had the plan to PR the changes, but after realising the PR would comepletely re-write the system from the ground up and probbaly confuse a lot of the maintainers, I decided to just make it a separete project instead and add improvements I wanted implmented myself. some of those are:
 
-1. Very few dependencies
-2. Faster
+1. Few dependencies
+2. Extremely Fast
 3. More customizable
 
 ## Requirements
@@ -31,13 +31,11 @@ Inspired by the [Reddit Video Maker Bot](https://github.com/elebumm/RedditVideoM
 
 Note: If you have custom ffmpeg installation, you can set the path to your installation directory in the config. If no custom installation, leave it empty and the script will download the precompiled binaries from https://github.com/BtbN/FFmpeg-Builds/releases (Official listed build mirror)
 
-## Future plans
-
-- [ ] Custom content hosting with customizability (Will replace current screenshot system and be about x20 times faster)
-- [x] Custom FFMPEG Support
+## Features
 - [x] Reddit Support
+- [x] Custom FFMPEG Support
 - [x] Parallel Downloading
 - [x] Global Text Pre-Pocessing 
 - [x] TTS - Save all content to mp3 files
-- [x] Screenshot - Save all content to png files
+- [x] Screenshot - Save all content to png files, with customizable template!
 - [x] Text - Save all content to text files

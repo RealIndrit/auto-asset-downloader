@@ -4,23 +4,6 @@ from datetime import datetime, timezone
 import time as pytime
 from time import sleep
 from urllib.error import HTTPError
-from utils.ffmpeg import FFMPEG
-
-
-def concatenate_audio_segments(audio_segments_file: str, output: str):
-    """
-      Pass on the arguments to the ffmpeg wrapper in list type
-      
-      Args:
-        audio_segments_file (str): path to concat list text file
-        output (str): path to where to dump the concatenated audiofile
-
-      Returns:
-        NoneType
-    """
-    FFMPEG().run_ffmpeg([
-        "-f", "concat", "-i", audio_segments_file, "-c:a", "copy", "-y", output
-    ])
 
 
 # Credits https://github.com/elebumm/RedditVideoMakerBot/blob/master/utils/voice.py

@@ -35,7 +35,7 @@ def example():
       exit()
 
    reddit_post = RedditPost(submission)
-   download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=True, text_file=True, screenshot=True, comments=4)
+   download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=False, text_file=False, screenshot=True, comments=10)
    #download_reddit_assets(reddit_post=reddit_post, path="downloaded", tts=True, text_file=True, screenshot=True, comments=2, pre_process_func=pre_process_text)
 
 if __name__ == "__main__":

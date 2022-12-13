@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+     content="width=device-width, initial-scale=1">
+  <title>Local Reddit Post</title>
+</head>
+<style>
+:root {
+   /*#RRGGBBAA*/
+   --left-panel-bg-colour: #161617ff;
+   --right-panel-bg-colour: #1a1a1bff;
+   --title-colour: #ddddddff;
+   --text-colour: #ccccccff;
+   --author-name-colour: #6e7071ff;
+   --arrow-colour: #6e7071ff;
+}
+
+body {
+   margin: 0px;
+   padding: 0px;
+}
+
+h1,h2{
+   margin: 20px 10px 5px 10px;
+}
+
+p {
+   margin: 10px 15px 10px 10px;
+}
+
+#author_name {
+   font-size: small;
+}
+
+#text {
+   word-wrap: break-word;
+   font-size: 16px;
+   line-height: 21px;
+   font-weight: normal;
+}
+
+#body {
+   color: var(--text-colour);
+   width: 750px;
+   display: flex;
+   flex-flow: row;
+   flex-direction: row-reverse;
+}
+
+#content {
+   width: 100%;
+   min-height: 100%;
+   background-color: var(--right-panel-bg-colour);
+}
+
+#misc {
+   width: 50px;
+   min-height: 100%;
+   background-color: var(--left-panel-bg-colour);
+   display: flex;
+   flex-flow: column;
+}
+
+#author_picture {
+   border-radius: 50%;
+}
+
+#author_name {
+   color: var(--author-name-colour);
+   font-size: 14px;
+   line-height: 15px;
+   font-weight:lighter;
+}
+
+#vote {
+   margin-top: 5px;
+   width: 100%;
+   display: flex;
+   flex-flow: column;
+}
+
+.arrow {
+   margin: auto;
+}
+
+#votes{
+   margin: auto;
+}
+
+</style>
+<body>
+<section id="body">
+   <div id="content">
+      <h2 id="author_name">exampel_user322_2</h2>
+      <div  id="text">
+         <p>
+            Exampe post text. 
+         </p>
+         <p>
+            Exampe post text. 
+         </p>
+      </div>
+   </div>
+   <div id="misc">
+      <div id="vote">
+         <span class="arrow" id="vote-arrow-up">
+               <svg width="22" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="#6e7071ff"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"/></svg>
+         </span>
+         <span id="votes">-999k</span>
+         <span class="arrow" id="vote-arrow-down">
+               <svg width="22" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="#6e7071ff"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/></svg>
+         </span>
+      </div>
+   </div>
+</section> 
+</body>
+</html>

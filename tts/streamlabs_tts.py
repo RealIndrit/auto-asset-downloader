@@ -9,7 +9,8 @@ import urllib.response
 import random
 import re
 
-from tts.tts_helper import check_ratelimit, concatenate_audio_segments, sanitize_text
+from tts.tts_helper import check_ratelimit, sanitize_text
+from utils.media.audio import concatenate_audio_segments
 from utils.utils import append_to_file
 
 # Credits: https://github.com/elebumm/RedditVideoMakerBot/blob/master/TTS/streamlabs_polly.py
@@ -115,7 +116,6 @@ class StreamlabsPolly:
             else:
                 print("HTTPError", error)
 
-    # TODO: Rewrite this shit up, spaghetti code mess with variables LOL
     def __split_tts(self, path: str, text: str, voice: str):
         """
          Splits text for the tts into sections of full scentences within the max cahracter limit, and send each sub section of the text into its own tts tracked file, 
@@ -123,7 +123,7 @@ class StreamlabsPolly:
          up all temp files (audio files and text file)
 
          Args:
-             path (str): Text to be sanitized
+             path (str): Path of output audio file
              text (str): Text to be sanitized and then sent through tts
              voice: (str): What voice the tts should use see "voices" in the top of file for available voices, or picks 
                random voice if voice is set to RANDOM
@@ -131,16 +131,15 @@ class StreamlabsPolly:
          Returns:
             NoneType
         """
-        split_files = []
-        split_text = [
+        audio_segments = []
+        text_segments = [
             x.group().strip() for x in re.finditer(
                 r" *(((.|\n){0," + str(self.max_chars) + "})(\.|.$))", text)
         ]
 
         offset = 0
         parent_path = os.path.dirname(path)
-        temp_list_file = os.path.join(parent_path, "concat.mp3.txt")
-        for idy, text_cut in enumerate(split_text):
+        for idy, text_cut in enumerate(text_segments):
             #print(f"{idx}-{idy}({offset}): {text_cut}\n")
             if not text_cut or text_cut.isspace():
                 offset += 1
@@ -149,12 +148,6 @@ class StreamlabsPolly:
             temp_name = f"audio_segment_{idy - offset}.part.mp3"
             temp_path = os.path.join(parent_path, temp_name)
             self.__call_tts(temp_path, text_cut, voice)
-            split_files.append(temp_name)
+            audio_segments.append(temp_name)
 
-        for file in split_files:
-            append_to_file(temp_list_file, f"file '{file}'\n")
-        concatenate_audio_segments(temp_list_file, path)
-
-        Path(temp_list_file).unlink()
-        for file in split_files:
-            Path(os.path.join(parent_path, file)).unlink()
+        concatenate_audio_segments(audio_segments, path)

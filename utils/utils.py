@@ -13,3 +13,10 @@ def append_to_file(path, text, encoding: str = "utf-8"):
         output_file.parent.mkdir(exist_ok=True, parents=True)
     fp = Path(output_file).open('a', encoding=encoding)
     fp.write(text)
+
+
+def beautify_number(number: int | str) -> str:
+    knum = int(number) / 1000
+    if knum > 1:
+        return f"{round(knum, 1)}k"
+    return number

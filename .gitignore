@@ -1,7 +1,8 @@
 config.json
-*/__pycache__
-downloaded/*
-ffmpeg/
 test.py
 
-reddit_new/*
+*/**/__pycache__
+downloaded/*
+ffmpeg/*
+
+utils/media/video.py
