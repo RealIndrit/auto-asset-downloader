@@ -42,10 +42,11 @@ def screenshot_post_full(page: Page,
             f'author => {AUTHOR_NAME_QUERY} = author',
             f"u/{author}",
         )
-        page.evaluate(
-            f"text => {TEXT_QUERY} = text",
-            text,
-        )
+        if not text == "":
+            page.evaluate(
+                f"text => {TEXT_QUERY} = text",
+                text,
+            )
         page.locator(f"#body").screenshot(path=path)
     except TimeoutError:
         print("TimeoutError: Skipping screenshot...")
@@ -86,10 +87,11 @@ def screenshot_post_content(
         if pre_process_func:
             text = pre_process_func(text)
         text = __build_text_container(text)
-        page.evaluate(
-            f"text => {TEXT_QUERY} = text",
-            text,
-        )
+        if not text == "":
+            page.evaluate(
+                f"text => {TEXT_QUERY} = text",
+                text,
+            )
         page.locator(f"#text").screenshot(path=path)
     except TimeoutError:
         print("TimeoutError: Skipping screenshot...")
@@ -133,6 +135,8 @@ def screenshot_comment(page: Page,
 def __build_text_container(text: str) -> str:
     paragraphs = text.split("\n")
     html = []
-    for p in paragraphs:
-        html.append(f"\n<p>{p}</p>")
-    return ' '.join(html)
+    if not len(paragraphs) == 1:
+        for p in paragraphs:
+            html.append(f"\n<p>{p}</p>")
+        return ' '.join(html)
+    return ""
