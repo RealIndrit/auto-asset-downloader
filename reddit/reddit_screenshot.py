@@ -20,7 +20,6 @@ def screenshot_post_full(page: Page,
                          pre_process_func: types.FunctionType = None) -> bool:
 
     try:
-        page.goto(f'localhost:5500/reddit/templates/post.html', timeout=0)
         title: str = post.title
         text: str = post.content
         votes: str = post.upvotes
@@ -78,7 +77,6 @@ def screenshot_post_title(page: Page,
                           pre_process_func: types.FunctionType = None) -> bool:
 
     try:
-        page.goto(f'localhost:5500/reddit/templates/post.html', timeout=0)
         title: str = post.title
         if pre_process_func:
             title = pre_process_func(title)
@@ -102,7 +100,6 @@ def screenshot_post_content(
         pre_process_func: types.FunctionType = None) -> bool:
 
     try:
-        page.goto(f'localhost:5500/reddit/templates/post.html', timeout=0)
         text: str = post.content
         if pre_process_func:
             text = pre_process_func(text)
@@ -126,7 +123,6 @@ def screenshot_comment(page: Page,
                        pre_process_func: types.FunctionType = None) -> bool:
 
     try:
-        page.goto(f'localhost:5500/reddit/templates/comment.html', timeout=0)
         text: str = comment.content
         votes: str = comment.upvotes
         author: str = comment.author

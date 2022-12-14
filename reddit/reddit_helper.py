@@ -25,6 +25,7 @@ def screenshot_post(reddit_post: RedditPost,
         context = browser.new_context()
         page = context.new_page()
         page.set_viewport_size(ViewportSize(width=1920, height=1080))
+        page.goto(f'localhost:5500/reddit/templates/post.html', timeout=0)
         screenshot_post_title(
             page,
             reddit_post,
@@ -46,6 +47,7 @@ def screenshot_post(reddit_post: RedditPost,
                           Path(f'{reddit_post.id}/png/post/post_full.png')),
             pre_process_func=pre_process_func)
 
+        page.goto(f'localhost:5500/reddit/templates/comment.html', timeout=0)
         for i, reddit_comment in enumerate(reddit_post.comments):
             if i not in range(comments):
                 break
