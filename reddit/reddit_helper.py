@@ -154,11 +154,6 @@ def download_reddit_assets(reddit_post: RedditPost,
     # Run all this in parallel threads because why lock up the main thread lol...
     # Probbaly pretty scuffed implementation, but it works :)
 
-    if screenshot:
-        screenshot_post_t = threading.Thread(target=screenshot_post,
-                                             args=(reddit_post, path, comments,
-                                                   pre_process_func))
-        screenshot_post_t.start()
     if tts:
         save_tts_t = threading.Thread(
             target=save_tts,
@@ -166,6 +161,11 @@ def download_reddit_assets(reddit_post: RedditPost,
                   settings.config["reddit"]["settings"]["streamlabs_voice"],
                   pre_process_func))
         save_tts_t.start()
+    if screenshot:
+        screenshot_post_t = threading.Thread(target=screenshot_post,
+                                             args=(reddit_post, path, comments,
+                                                   pre_process_func))
+        screenshot_post_t.start()
     if text_file:
         save_to_text_file_t = threading.Thread(target=save_to_text_file,
                                                args=(reddit_post, path,
@@ -176,7 +176,7 @@ def download_reddit_assets(reddit_post: RedditPost,
     # Wait for all threads to finish
     if text_file:
         save_to_text_file_t.join()
-    if tts:
-        save_tts_t.join()
     if screenshot:
         screenshot_post_t.join()
+    if tts:
+        save_tts_t.join()

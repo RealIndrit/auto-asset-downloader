@@ -12,7 +12,7 @@ FFMPEG_FOLDER_DEFAULT = "./ffmpeg/"
 
 class FFMPEG:
 
-    def __init__(self, verbose=False):
+    def __init__(self, verbose: bool = False):
         self.__resolve_ffmpeg()
         self.ffmpeg = settings.config["global"]["ffmpeg"]["ffmpeg"]
         self.ffprobe = settings.config["global"]["ffmpeg"]["ffprobe"]

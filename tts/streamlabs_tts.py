@@ -1,7 +1,6 @@
 from json import JSONDecodeError
 import json
 import os
-from pathlib import Path
 import urllib.error
 import urllib.request
 import urllib.parse
@@ -11,7 +10,6 @@ import re
 
 from tts.tts_helper import check_ratelimit, sanitize_text
 from utils.media.audio import concatenate_audio_segments
-from utils.utils import append_to_file
 
 # Credits: https://github.com/elebumm/RedditVideoMakerBot/blob/master/TTS/streamlabs_polly.py
 
