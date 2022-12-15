@@ -9,27 +9,49 @@ import urllib.request
 FFMPEG_BINARIES = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip"
 FFMPEG_FOLDER_DEFAULT = "./ffmpeg/"
 
+LOG_LEVELS = [
+    "quiet", "panic", "fatal", "error", "warning", "info", "verbose", "debug",
+    "trace"
+]
+
+
+class FFMPEGInvalidLogLevelException(Exception):
+
+    def __init__(self, *args: object) -> None:
+        super().__init__(*args)
+
 
 class FFMPEG:
 
-    def __init__(self, verbose: bool = False):
+    def __init__(self, print=False, log_level: str = "info"):
         self.__resolve_ffmpeg()
         self.ffmpeg = settings.config["global"]["ffmpeg"]["ffmpeg"]
         self.ffprobe = settings.config["global"]["ffmpeg"]["ffprobe"]
         self.ffplay = settings.config["global"]["ffmpeg"]["ffplay"]
-        self.verbose = verbose
+        self.print = print
+        self.log_level = log_level
 
     def run_ffmpeg(self, *args):
         cmd = self.__argument_helper(self.ffmpeg, args)
-        subprocess.run(cmd)
+        self.__run_with_args(cmd)
 
     def run_ffprobe(self, *args):
         cmd = self.__argument_helper(self.ffprobe, args)
-        subprocess.run(cmd)
+        print(cmd)
+        self.__run_with_args(cmd)
 
     def run_ffplay(self, *args):
         cmd = self.__argument_helper(self.ffplay, args)
-        subprocess.run(cmd)
+        self.__run_with_args(cmd)
+
+    # https://stackoverflow.com/questions/41171791/how-to-suppress-or-capture-the-output-of-subprocess-run
+    # Goated stackoverflow thread
+
+    def __run_with_args(self, cmd):
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        print(self.log_level)
+        if self.print:
+            print(result.stderr.strip("\n"))
 
     def __argument_helper(self, executable, args) -> list[str]:
         """
@@ -41,9 +63,9 @@ class FFMPEG:
         # Lets us pass a list as args
         if len(args) == 1:
             args = list(args[0])
-        cmd = [executable]
-        if not self.verbose:
-            cmd = cmd + ["-loglevel", "repeat+level+error"]
+        if not LOG_LEVELS.__contains__(self.log_level):
+            raise FFMPEGInvalidLogLevelException(self.log_level)
+        cmd = [executable, "-loglevel", f"repeat+level+{self.log_level}"]
         return cmd + list(args)
 
     def __install_ffmpeg(self, url: str, output: str) -> Path:
