@@ -4,9 +4,15 @@
          "client_id": "ID",
          "client_secret": "SECRET"
       },
+      "post_id": "zh6ift",
       "settings": {
-         "post_id": "zh6ift",
-         "streamlabs_voice": "Matthew"
+         "tts": {
+            "streamlabs_voice": "Matthew"
+         },
+         "server": {
+            "port": 5500,
+            "host": "localhost"
+         }
       }
    },
    "global": {

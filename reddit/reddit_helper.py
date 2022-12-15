@@ -16,8 +16,9 @@ def screenshot_post(reddit_post: RedditPost,
                     comments: int = 0,
                     pre_process_func: types.FunctionType = None):
 
-    print("Launching local webserver for website emulation")
-    server = HTTPServerLayer()
+    server = HTTPServerLayer(
+        settings.config["reddit"]["settings"]["server"]["host"],
+        settings.config["reddit"]["settings"]["server"]["port"])
     server.setUp()
     print(f'Creating screenshots...')
     with sync_playwright() as p:
@@ -25,7 +26,8 @@ def screenshot_post(reddit_post: RedditPost,
         context = browser.new_context()
         page = context.new_page()
         page.set_viewport_size(ViewportSize(width=1920, height=1080))
-        page.goto(f'localhost:5500/reddit/templates/post.html', timeout=0)
+        page.goto(f'{server.host}:{server.port}/reddit/templates/post.html',
+                  timeout=0)
         screenshot_post_title(
             page,
             reddit_post,
@@ -47,7 +49,8 @@ def screenshot_post(reddit_post: RedditPost,
                           Path(f'{reddit_post.id}/png/post/post_full.png')),
             pre_process_func=pre_process_func)
 
-        page.goto(f'localhost:5500/reddit/templates/comment.html', timeout=0)
+        page.goto(f'{server.host}:{server.port}/reddit/templates/comment.html',
+                  timeout=0)
         for i, reddit_comment in enumerate(reddit_post.comments):
             if i not in range(comments):
                 break
@@ -61,7 +64,6 @@ def screenshot_post(reddit_post: RedditPost,
                 pre_process_func=pre_process_func)
     print(f'Created screenshots...')
     server.tearDown()
-    print("Local webserver shutdown")
 
 
 def save_to_text_file(reddit_post: RedditPost,
@@ -159,9 +161,8 @@ def download_reddit_assets(reddit_post: RedditPost,
     if tts:
         save_tts_t = threading.Thread(
             target=save_tts,
-            args=(reddit_post, path, comments,
-                  settings.config["reddit"]["settings"]["streamlabs_voice"],
-                  pre_process_func))
+            args=(reddit_post, path, comments, settings.config["reddit"]
+                  ["settings"]["tts"]["streamlabs_voice"], pre_process_func))
         save_tts_t.start()
     if screenshot:
         screenshot_post_t = threading.Thread(target=screenshot_post,

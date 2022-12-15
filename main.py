@@ -25,9 +25,9 @@ def example():
 
 
    # Fetch specified post or exit program if no post id specified
-   if settings.config["reddit"]["settings"]["post_id"]:
+   if settings.config["reddit"]["post_id"]:
       submission = reddit.submission(
-            id=settings.config["reddit"]["settings"]["post_id"])
+            id=settings.config["reddit"]["post_id"])
    else:
       print("No post id found, aborting!")
       exit()
